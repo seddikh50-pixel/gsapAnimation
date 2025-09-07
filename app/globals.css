@@ -24,3 +24,63 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* globals.css */
+.transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+
+  /* Gradient animated multi-color background */
+  background: linear-gradient(
+    45deg,
+    #ff4e50,
+    #f9d423,
+    #24c6dc,
+    #ab47bc,
+    #ff9800
+  );
+  background-size: 400% 400%;
+
+  animation: gradientAnimation 2s ease infinite;
+}
+
+/* تحريك الألوان */
+/* @keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+} */
+
+
+
+
+body{
+  background-color: black;
+}
+@font-face {
+  font-family: font1;
+  src: url("../public//fonts/Lausanne-300.woff2");
+}
+
+@font-face {
+  font-family: font2;
+  src: url("../public//fonts/Lausanne-500.woff2");
+}
+
+.text-border {
+  text-shadow: 
+     2px 2px 0 #000,  /* يمين-أسفل */
+    -2px 2px 0 #000,  /* يسار-أسفل */
+     2px -2px 0 #000, /* يمين-أعلى */
+    -2px -2px 0 #000, /* يسار-أعلى */
+     0 2px 0 #000,    /* أسفل */
+     2px 0 0 #000,    /* يمين */
+     0 -2px 0 #000,   /* أعلى */
+    -2px 0 0 #000;    /* يسار */
+}
