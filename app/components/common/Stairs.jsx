@@ -28,7 +28,7 @@ const Stairs = ({ children }) => {
 
         })
 
-       
+
 
         tl.to(boxes, {
             scaleY: 1,
@@ -40,10 +40,10 @@ const Stairs = ({ children }) => {
 
         tl.to(blackbox.current, {
             opacity: 0,
-            duration: 0.2,
+            duration: 0.1,
             zIndex: -1
 
-        }, "<+0.5")
+        })
 
         // }, "<+0.1") //
         tl.to(boxes, {
@@ -53,8 +53,10 @@ const Stairs = ({ children }) => {
             duration: 0.3,
             stagger: {
                 amount: 0.3
-            }
+            },
         })
+     
+
 
 
 
@@ -62,7 +64,7 @@ const Stairs = ({ children }) => {
             display: "none"
         })
 
-      
+
 
 
 

@@ -27,7 +27,6 @@ const page = () => {
         pin: true,
         start: "top 20.9%",
         end: "top -91%",
-        markers: true,
         onUpdate: (self) => { setIndex(Math.floor(self.progress * (images.length - 1))) }
       }
     })
@@ -48,7 +47,7 @@ const page = () => {
   });
   return (
     <div className=''>
-      <div className='section1 bg-amber-300 '>
+      <div className='section1 bg-[#f3e600] '>
         <div ref={imageDevRef} className='imageContainer absolute h-90 w-70 rounded-3xl top-48 overflow-hidden  left-1/3 z-0'>
           <Image ref={imageRef} src={images[index]} className='img1 object-cover' alt='' fill />
         </div>

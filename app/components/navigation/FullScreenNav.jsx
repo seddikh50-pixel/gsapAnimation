@@ -34,7 +34,8 @@ const FullScreenNav = () => {
 
 
     useGSAP(() => {
-
+     
+        
         gsap.to(marqueeRef1.current, {
             x: "-50%",
             repeat: -1,
@@ -70,7 +71,9 @@ const FullScreenNav = () => {
     useGSAP(() => {
         const boxes = Array.from(transDev.current.children);
         const currents = [wrapperRef1, wrapperRef2, wrapperRef3, wrapperRef4].map((w) => w.current)
-        console.log(currents)
+        // gsap.to(fullScreenRef.current, {
+        //         display: "none"
+        //     })
 
         if (isOpen) {
             const tl = gsap.timeline();
@@ -107,6 +110,7 @@ const FullScreenNav = () => {
                 },
             }, "<")
         } else {
+            
             const tl = gsap.timeline()
             tl.set(transDev.current, { display: "flex" })
             tl.from(boxes, {
@@ -137,7 +141,7 @@ const FullScreenNav = () => {
 
 
     return (
-        <div ref={fullScreenRef} id='fullscreennav' className={`py-40 w-full h-screen overflow-hidden z-50 absolute bg-black    `}>
+        <div ref={fullScreenRef} id='fullscreennav' className={`${isOpen ? "block": "hidden"} py-40 w-full h-screen overflow-hidden z-50 absolute bg-black    `}>
             <div ref={transDev} className="transition  h-screen w-screen fixed top-0 z-[1000] flex">
                 <div className="w-1/5 h-full scale-y-0 border-r   bg-[#f3e600]"></div>
                 <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
