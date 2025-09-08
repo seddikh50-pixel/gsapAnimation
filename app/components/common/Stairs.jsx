@@ -5,6 +5,8 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import { usePathname } from 'next/navigation';
+import { AnimatePresence, motion } from "framer-motion";
+
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -35,15 +37,15 @@ const Stairs = ({ children }) => {
             ease: "power1.in",
             transformOrigin: "top center",
             duration: 0.2,
-            stagger: { amount: -0.3 }
+            stagger: { amount: -0.5 }
         }) // 👈 يبدأ مع أول سطر (blackbox)
 
-        tl.to(blackbox.current, {
-            opacity: 0,
-            duration: 0.1,
-            zIndex: -1
+        // tl.to(blackbox.current, {
+        //     opacity: 0,
+        //     duration: 0.1,
+        //     zIndex: -1
 
-        })
+        // })
 
         // }, "<+0.1") //
         tl.to(boxes, {
@@ -55,7 +57,7 @@ const Stairs = ({ children }) => {
                 amount: 0.3
             },
         })
-     
+
 
 
 
@@ -69,21 +71,24 @@ const Stairs = ({ children }) => {
 
 
 
+
+
     }, [pathname]);
 
 
     return (
         <div className='overflow-hidden '>
 
+
             <div ref={transDev} className="transition  h-screen w-screen fixed top-0 z-30 flex">
-                <div className="w-1/5 h-full scale-y-0 bg-black"></div>
-                <div className="w-1/5 h-full scale-y-0 bg-black"></div>
-                <div className="w-1/5 h-full scale-y-0 bg-black"></div>
-                <div className="w-1/5 h-full scale-y-0 bg-black"></div>
-                <div className="w-1/5 h-full scale-y-0 bg-black"></div>
+                <div className="w-1/5 h-full     scale-y-0 bg-black"></div>
+                <div className="w-1/5 h-full    scale-y-0 bg-black"></div>
+                <div className="w-1/5 h-full    scale-y-0 bg-black"></div>
+                <div className="w-1/5 h-full    scale-y-0 bg-black"></div>
+                <div className="w-1/5 h-full    scale-y-0 bg-black"></div>
             </div>
             <div ref={pageRef} className='relative '>
-                <div ref={blackbox} className=' absolute top-0 left-0 bg-black z-50 w-full h-full'></div>
+                
                 {children}
             </div>
         </div>

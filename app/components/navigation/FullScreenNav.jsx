@@ -29,13 +29,13 @@ const FullScreenNav = () => {
     const wrapperRef2 = useRef(null)
     const wrapperRef3 = useRef(null)
     const wrapperRef4 = useRef(null)
-
+    const [counter, setCounter] = useState(0);
 
 
 
     useGSAP(() => {
-     
-        
+
+
         gsap.to(marqueeRef1.current, {
             x: "-50%",
             repeat: -1,
@@ -71,14 +71,10 @@ const FullScreenNav = () => {
     useGSAP(() => {
         const boxes = Array.from(transDev.current.children);
         const currents = [wrapperRef1, wrapperRef2, wrapperRef3, wrapperRef4].map((w) => w.current)
-        // gsap.to(fullScreenRef.current, {
-        //         display: "none"
-        //     })
 
         if (isOpen) {
             const tl = gsap.timeline();
 
-            // 1. خلي الـ container ظاهر + شفاف
             tl.set(fullScreenRef.current, { display: "block", opacity: 0, y: -50 });
             tl.set(transDev.current, { display: "flex" })
 
@@ -87,49 +83,77 @@ const FullScreenNav = () => {
             tl.to(fullScreenRef.current, {
                 opacity: 1,
                 y: 0,
+                scaleY: 1,
                 duration: 0.6,
                 ease: "power2.inOut",
             });
 
+            tl.fromTo(boxes,
+                { scaleY: 1, transformOrigin: "bottom center" },
+                {
+                    scaleY: 0,
+                    duration: 0.4,
+                    transformOrigin: "top center",
+                    stagger: { amount: 0.3, ease: "power2.inOut" },
+                    onComplete: () => {
+                        transDev.current.style.display = "none";
+                    }
+                },
+                "-=0.3"
+            );
 
-            // 3. بعدين boxes تختفي
-            tl.from(boxes, {
-                scaleY: 1,
-                duration: 0.4,
-                transformOrigin: "top center",
-                stagger: { amount: 0.3, ease: "power2.inOut" },
-                onComplete: () => transDev.current.style.display = "none"
-
-            }, "-=0.3"); // -=0.3 
-            tl.from(currents, {
+            tl.fromTo(currents,{y:-100}, {
                 duration: 0.5,
-                scaleY: 0,
+                y: 0    ,
                 transformOrigin: "bottom center",
                 stagger: {
                     amount: -.3
                 },
             }, "<")
+
+
         } else {
-            
-            const tl = gsap.timeline()
-            tl.set(transDev.current, { display: "flex" })
-            tl.from(boxes, {
-                scaleY: 1,
-                duration: 0.6,
-                transformOrigin: "bottom center",
-                   stagger: { amount: -0.3, ease: "power2.inOut" },
+            setCounter(prev => prev + 1)
+            if (counter > 0) {
 
-            });
-            tl.to(fullScreenRef.current, {
-                opacity: 0,
-                y: -100,
-                duration: 0.6,
-                ease: "power2.inOut",
+                const tl1 = gsap.timeline()
 
-                onComplete: () => {
-                    fullScreenRef.current.style.display = "none";
-                }
-            }, "-=0.3");
+                // خلي الحاوية تبان قبل الصناديق
+                tl1.set(transDev.current, { display: "flex" });
+
+                // الصناديق تتعمر من تحت
+                tl1.fromTo(boxes,
+                    { scaleY: 0, transformOrigin: "top center" },
+                    {
+                        scaleY: 1,
+                        duration: 0.4,
+                        stagger: { amount: 0.3, ease: "power2.inOut" },
+                    }
+                );
+
+                tl1.to(currents, {
+                    duration: 0.5,
+                    y: -100,
+                    transformOrigin: "bottom center",
+                    stagger: {
+                        amount: -.3
+                    },
+                   
+                }, "<")
+
+
+
+
+                tl1.to(fullScreenRef.current, {
+                    opacity: 0,
+                    duration: 0.6,
+                    ease: "power2.inOut",
+                    onComplete: () => {
+                        fullScreenRef.current.style.display = "none";
+                    }
+                });
+
+            }
 
         }
 
@@ -141,15 +165,15 @@ const FullScreenNav = () => {
 
 
     return (
-        <div ref={fullScreenRef} id='fullscreennav' className={`${isOpen ? "block": "hidden"} py-40 w-full h-screen overflow-hidden z-50 absolute bg-black    `}>
+        <div ref={fullScreenRef} id='fullscreennav' className={`${isOpen ? "block" : "hidden"} py-40 w-full h-screen overflow-hidden z-50 absolute bg-black    `}>
             <div ref={transDev} className="transition  h-screen w-screen fixed top-0 z-[1000] flex">
-                <div className="w-1/5 h-full scale-y-0 border-r   bg-[#f3e600]"></div>
-                <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
-                <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
-                <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
-                <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
-                <div className="w-1/5 h-full scale-y-0 border-r  bg-[#f3e600]"></div>
-        
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+
             </div>
             <div ref={bigWrapper} className={` `}>
                 <div className='flex justify-between absolute top-0 w-full z-50   '>

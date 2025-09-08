@@ -4,9 +4,10 @@ import React, { useRef, useState } from 'react'
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from 'gsap/all';
 
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger,SplitText);
 const page = () => {
   const imageDevRef = useRef(null)
   const imageRef = useRef(null)
@@ -19,6 +20,17 @@ const page = () => {
     "/images/johnny4.jpg"
   ]
   useGSAP(() => {
+     let split = SplitText.create(textRef.current, {
+  type: "chars, lines", // only split into words and lines (not characters)
+  mask: "lines", // adds extra wrapper element around lines with overflow: clip (v3.13.0+)
+  linesClass: "line++", // adds "line" class to each line element, plus an incremented one too ("line1", "line2", "line3", etc.)
+
+  // there are many other options - see below for a complete list
+});
+
+
+
+
 
     gsap.to(imageDevRef.current, {
       scrollTrigger: {
@@ -31,9 +43,10 @@ const page = () => {
       }
     })
 
-    gsap.from(textRef.current, {
+    gsap.from(split.chars, {
       y: - 200,
-      scaleY: 0,
+      scale: 0,
+      stagger : 0.1,
       duration: 0.5,
       delay: 1,
       ease : "power1"

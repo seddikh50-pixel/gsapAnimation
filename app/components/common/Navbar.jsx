@@ -35,7 +35,7 @@ const Navbar = () => {
           <div className={`w-13 h-[2px] bg-${color}`}></div>
           <div className={`w-8 h-[2px] bg-${color}`}></div>
         </div>
-        <div ref={yellowLeft} className='w-full h-0 transition-all bg-[#f3e600] absolute top-0 left-0'></div>
+        <div ref={yellowLeft} className='w-full h-0 transition-all border-l-2 border-b-2 border-black bg-[#f3e600] absolute top-0 left-0'></div>
       </div>
     </div>
   )
