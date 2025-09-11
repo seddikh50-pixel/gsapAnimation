@@ -4,10 +4,11 @@ import Image from 'next/image'
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Black_Ops_One } from 'next/font/google';
 import Link from 'next/link';
 import { useNavContext } from '../context/NavContext';
+import { useMediaQuery } from 'react-responsive';
 
 
 const BlackOpsOne = Black_Ops_One({ subsets: ['latin'], weight: '400' });
@@ -102,9 +103,9 @@ const FullScreenNav = () => {
                 "-=0.3"
             );
 
-            tl.fromTo(currents,{y:-100}, {
+            tl.fromTo(currents, { y: -100 }, {
                 duration: 0.5,
-                y: 0    ,
+                y: 0,
                 transformOrigin: "bottom center",
                 stagger: {
                     amount: -.3
@@ -138,7 +139,7 @@ const FullScreenNav = () => {
                     stagger: {
                         amount: -.3
                     },
-                   
+
                 }, "<")
 
 
@@ -160,27 +161,47 @@ const FullScreenNav = () => {
     }, [isOpen]);
 
 
+    const [number, setNumber] = useState(0);
+    const isMobile = useMediaQuery({ maxWidth: "768px" })
+    const isTablet = useMediaQuery({ minWidth: '769px', maxWidth: "1000px" })
+    const isWideScreen = useMediaQuery({ minWidth: '1001px' })
+    useEffect(() => {
+        if (isMobile) {
+            setNumber(4)
+        }
+        if (isTablet) {
+            setNumber(5)
+        }
+        if (isWideScreen) {
+            setNumber(6)
+        }
+    }, []);
+
+
+
+
+
 
 
 
 
     return (
-        <div ref={fullScreenRef} id='fullscreennav' className={`${isOpen ? "block" : "hidden"} py-40 w-full h-screen overflow-hidden z-50 absolute bg-black    `}>
+        <div ref={fullScreenRef} id='fullscreennav' className={`${isOpen ? "block" : "hidden"} py-40 w-full h-screen overflow-hidden z-50 fixed bg-black    `}>
             <div ref={transDev} className="transition  h-screen w-screen fixed top-0 z-[1000] flex">
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
-                <div className="w-1/6 h-full border-r bg-[#f3e600]"></div>
+                {Array.from({ length: number }).map((_, i) => (
+                    <div
+                        key={i}
+                        className={`flex-1 h-full border-r border-black bg-[#f3e600]`}
+                    ></div>
+                ))}
 
             </div>
             <div ref={bigWrapper} className={` `}>
                 <div className='flex justify-between absolute top-0 w-full z-50   '>
                     <div className=''>
-                        <h1 className={BlackOpsOne.className + " text-[#f3e600] text-6xl font-bold p-1 text-border "}>SED40</h1>
+                        <h1 className={BlackOpsOne.className + " text-[#f3e600] text-6xl font-bold p-1 text-border "}></h1>
                     </div>
-                    <div ref={closeRef} onClick={() => setIsOpen(false)} className=' right-1 group  h-36 w-36 text-white flex justify-center cursor-pointer transition-all items-center flex-col  bg-black z-40 '>
+                    <div ref={closeRef} onClick={() => setIsOpen(false)} className=' right-1 group  xl:h-36 lg:w-34 lg:h-34 md:w-30 md:h-30 w-20 h-20 sm:w-25 sm:h-24  xl:w-36 text-white flex justify-center cursor-pointer transition-all items-center flex-col  bg-black z-40 '>
                         <div className='w-full h-[2px] group-hover:bg-[#55ead4] bg-[#f3e600] transition-all rotate-45'></div>
                         <div className='w-full h-[2px] group-hover:bg-[#55ead4] bg-[#f3e600] transition-all  -rotate-45'></div>
                     </div>
@@ -201,22 +222,28 @@ const FullScreenNav = () => {
                             gsap.to(marqueeRef1.current, { scaleY: 0, duration: 0.2, ease: "power1", transformOrigin: isFromTop ? "top center" : "bottom center" });
                         }}
                     >
-                        <h1 className='uppercase text-[#f3e600] font-bold pt-3 text-center text-[16vh] leading-[0.9] border-[#f3e600] border-t'
+                        <h1 className='uppercase text-[#f3e600] font-bold p-3 xl:pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[7vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] border-t-[#f3e600] border-t'
                         >Projects</h1>
-                        <div ref={marqueeRef1} className='flex absolute top-0 z-40   bg-[#f3e600] scale-y-0     '>
+                        <div ref={marqueeRef1} className='flex absolute top-0 z-40   bg-[#f3e600] h-full scale-y-0     '>
                             <div className='flex  items-center justify-center overflow-hidden gap-5  '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
-                            <div className='flex  items-center justify-center overflow-hidden gap-5 top-0 '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                            <div className='flex  items-center justify-center overflow-hidden gap-5  '>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -235,22 +262,28 @@ const FullScreenNav = () => {
                             gsap.to(marqueeRef2.current, { scaleY: 0, duration: 0.2, ease: "power1", transformOrigin: isFromTop ? "top center" : "bottom center" });
                         }}
                     >
-                        <h1 className='uppercase text-[#f3e600] font-bold pt-3 text-center text-[16vh] leading-[0.9] border-t-[#f3e600] border-t'
+                        <h1 className='uppercase text-[#f3e600] font-bold p-3 xl:pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[7vh] sm:text-[10vh] md:text-[12vh]  leading-[0.9] border-t-[#f3e600] border-t'
                         >Agency</h1>
-                        <div ref={marqueeRef2} className='flex absolute top-0 z-10 bg-[#f3e600] scale-y-0      '>
+                        <div ref={marqueeRef2} className='flex h-full absolute top-0 z-10 bg-[#f3e600] scale-y-0      '>
                             <div className='flex  items-center justify-center overflow-hidden gap-5  '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
-                            <div className='flex  items-center justify-center overflow-hidden gap-5 top-0 '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                            <div className='flex  items-center justify-center overflow-hidden gap-5  '>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -270,22 +303,28 @@ const FullScreenNav = () => {
                             gsap.to(marqueeRef3.current, { scaleY: 0, duration: 0.2, ease: "power1", transformOrigin: isFromTop ? "top center" : "bottom center" });
                         }}
                     >
-                        <h1 className='uppercase text-[#f3e600] font-bold pt-3 text-center text-[16vh] leading-[0.9] border-t-[#f3e600] border-t'
+                        <h1 className='uppercase text-[#f3e600] font-bold p-3 xl:pt-3  text-center lg:text-[14vh] xl:text-[16vh] text-[7vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] border-t-[#f3e600] border-t'
                         >Contact</h1>
-                        <div ref={marqueeRef3} className='flex absolute top-0 z-10 bg-[#f3e600] scale-y-0      '>
+                        <div ref={marqueeRef3} className='flex absolute h-full top-0 z-10 bg-[#f3e600] scale-y-0      '>
                             <div className='flex  items-center justify-center overflow-hidden gap-5  '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
-                            <div className='flex  items-center justify-center overflow-hidden gap-5 top-0 '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                            <div className='flex  items-center justify-center overflow-hidden gap-5  '>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -293,7 +332,7 @@ const FullScreenNav = () => {
 
 
 
-                    <div ref={wrapperRef4} className=' relative  bg-black'
+                    <div ref={wrapperRef4} className=' relative  bg-black '
                         onMouseEnter={(e) => {
                             const rect = wrapperRef4.current.getBoundingClientRect();
                             const height = rect.height / 2
@@ -307,22 +346,28 @@ const FullScreenNav = () => {
                             gsap.to(marqueeRef4.current, { scaleY: 0, duration: 0.2, ease: "power1", transformOrigin: isFromTop ? "top center" : "bottom center" });
                         }}
                     >
-                        <h1 className='uppercase text-[#f3e600] font-bold pt-3 text-center text-[16vh] leading-[0.9] border-t-[#f3e600] border-b border-t'
+                        <h1 className='uppercase text-[#f3e600] font-bold p-3 xl:pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[7vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] border-t-[#f3e600] border-b border-t'
                         >Blog</h1>
-                        <div ref={marqueeRef4} className='flex absolute top-0 z-10 bg-[#f3e600] scale-y-0      '>
+                        <div ref={marqueeRef4} className='flex h-full absolute top-0 z-10 bg-[#f3e600] scale-y-0      '>
                             <div className='flex  items-center justify-center overflow-hidden gap-5  '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
-                            <div className='flex  items-center justify-center overflow-hidden gap-5 top-0 '>
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1.jpg"} />
-                                <h2 className='uppercase font-bold pt-3 text-center text-[16vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
-                                <Image width={210} height={60} className='object-cover rounded-full' alt='link1' src={"/images/link1-2.png"} />
-
+                            <div className='flex  items-center justify-center overflow-hidden gap-5  '>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
+                                <h2 className='uppercase font-bold pt-3 text-center lg:text-[14vh] xl:text-[16vh] text-[10vh] sm:text-[10vh] md:text-[12vh] leading-[0.9] whitespace-nowrap'>to see everything</h2>
+                                <div className='relative xl:w-64 lg:w-64 md:w-54 sm:w-40 w-35 xl:h-25 lg:h-22 md:h-20 sm:h-18 h-15'>
+                                    <Image fill className='object-cover transition-all rounded-full' alt='link1' src={"/images/link1.jpg"} />
+                                </div>
                             </div>
                         </div>
                     </div>
